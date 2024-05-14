@@ -1,6 +1,9 @@
 
 package fr.ldnr.groupe4.boitedejeux;
 
+
+import graphics.Home;
+
 /**
  *
  * @author Federico Manca
@@ -8,6 +11,8 @@ package fr.ldnr.groupe4.boitedejeux;
 public class Boitedejeux {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        Home home = new Home();
+        home.setVisible(true);
     }
 }
+
