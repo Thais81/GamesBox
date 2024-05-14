@@ -7,20 +7,22 @@ import java.io.Serializable;
  */
 
 @SuppressWarnings("serial")
-public abstract class Game implements Serializable {
+public abstract class Game implements Identifiable, Serializable {
     int id_game;
     String gameName;
     //No variables as it's an interface (can only have constant variables)
-    Integer getIdGame(){
+    @Override
+    public Integer getId(){
         return id_game;
     };
-    String getGameName(){
+    public String getGameName(){
         return gameName;
     }
-    void setIdGame(int id){
+    @Override
+    public void setId(Integer id){
         id_game = id;
     }
-    void setGameName(String name){
+    public void setGameName(String name){
         gameName = name;
     }
     abstract void start();
