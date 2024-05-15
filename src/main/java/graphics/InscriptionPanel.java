@@ -43,6 +43,7 @@ public class InscriptionPanel extends JPanel {
         
         welcomePanel = new JPanel();
         userPanel = new JPanel();
+        mailPanel = new JPanel();
         pwdPanel = new JPanel();
         pwdConfirmationPanel = new JPanel();
         buttonsPanel = new JPanel();
@@ -69,6 +70,15 @@ public class InscriptionPanel extends JPanel {
         userPanel.add(userLabel);
         userPanel.add(userTextField);
         add(userPanel);
+        
+        //La partie concernant le champ "MAIL" du formulaire
+        mailPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+        mailLabel = new JLabel("Email");
+        mailTextField = new JTextField();
+        mailTextField.setPreferredSize(new Dimension(600, 40));
+        mailPanel.add(mailLabel);
+        mailPanel.add(mailTextField);
+        add(mailPanel);
         
         //La partie concernant le champ "PASSWORD" du formulaire
         pwdPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
