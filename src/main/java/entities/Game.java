@@ -25,6 +25,6 @@ public abstract class Game implements Identifiable, Serializable {
     public void setGameName(String name){
         gameName = name;
     }
-    abstract void start();
-    abstract boolean win();
+    public abstract void start();
+    public abstract boolean win();
 }
