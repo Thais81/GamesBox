@@ -4,6 +4,7 @@ import static java.lang.Math.random;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Grid {
     public Grid(int h, int w){
         height = h;
         width = w;
+        disposition = new TreeMap();
         for (int x = 1; x <= width; x++){
             for (int y = 1; y <= height; y++){
                 Position tmpPos = new Position(x,y);
@@ -29,8 +31,8 @@ public class Grid {
     public List<Position> GetSurroundingPositions(Position center){
         List <Position> surrounding = new ArrayList();
         for (int x = center.getX()-1; x <= center.getX()+1; x++){
-            for (int y = center.getY()-1; y <= center.getY()+1; y++){
-                if (!(x == center.getX() && y == center.getY())){
+            for (int y = center.getY()-1; y <= center.getY()+1; y++){ 
+                if (!(CheckForOutOfGrid(x, width) || CheckForOutOfGrid(y, height))){
                     Position tmpPos = new Position(x,y);
                     surrounding.add(tmpPos);
                 }
@@ -39,22 +41,21 @@ public class Grid {
         return surrounding;
     }
     
+    public boolean CheckForOutOfGrid(int i, int check){
+        return (i == 0 || i > check);
+    }
+    
     public void MinesRepartition(int nbMines, Position firstClick){
-        int counter = 0;
         Position randPos;
         List <Position> firstClickArea = GetSurroundingPositions(firstClick);
-        while (counter < nbMines){  
-            do{
-                int randX, randY;
-                randX = (int)(random() * width);
-                randY = (int)(random() * height);
-                randPos = new Position(randX, randY);
-            } while (!firstClickArea.contains(randPos));
-            if (!(disposition.get(randPos) instanceof MineCell)){
-                MineCell tmp = new MineCell(randPos);
-                disposition.replace(randPos, tmp);
-                counter++; 
-            }                     
+        List <Position> validPositions = new ArrayList <>(disposition.keySet());
+        validPositions.removeAll(firstClickArea);
+        for (int i = 0; i < nbMines; i++){  
+            int randIdx = (int)(random()*validPositions.size());
+            randPos = validPositions.get(randIdx);
+            validPositions.remove(randIdx);
+            MineCell tmp = new MineCell(randPos);
+            disposition.replace(randPos, tmp);
         }
     }
     
