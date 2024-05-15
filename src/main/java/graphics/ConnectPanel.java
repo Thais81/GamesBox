@@ -101,6 +101,9 @@ public class ConnectPanel extends JPanel {
         return loginButton;
     }
 
+    public JTextField getLoginField() {
+        return loginField;
+    }
     public JPasswordField getPwdField() {
         return pwdField;
     }

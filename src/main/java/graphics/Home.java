@@ -1,19 +1,16 @@
 package graphics;
 
+import entities.User;
 import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import java.awt.HeadlessException;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicComboBoxUI;
+
 
 /**
  * @author Amélie Solanas Pruvost
@@ -44,30 +41,24 @@ public class Home extends JFrame {
     
     
     public Home() throws HeadlessException {
-
         super();
         cards = new CardLayout();
-        
     //définition des différents éléments du menu
         menuBar = new JMenuBar();
         
         //création de 3 entrée dans notre menuBar
-        account = new JMenu("Mon compte");
-        game = new JMenu("Jeux");
+        account = new JMenu("Mon compte  ");
+        game = new JMenu("Jeux  ");
         admin = new JMenu("Administrateur");
         
         //Les items qui font l'appel de nos panels
         inscription = new JMenuItem("S'inscrire");
         connect = new JMenuItem("Se connecter");
-        
         hangMan = new JMenuItem("Jeu du Pendu");
         mineSweeper = new JMenuItem("Démineur");
-        
         delete = new JMenuItem("Supprimer compte");
         //welcomeLabel = new JLabel("Bienvenue dans ta Boîte de Jeux!");
         
-        
-
         initGUI();
         initEvents();
 
@@ -83,9 +74,11 @@ public class Home extends JFrame {
         //création du menu "compte"
         account.add(inscription);
         account.add(connect);
+        
         //création du menu "jeux"
         game.add(mineSweeper);
         game.add(hangMan);
+        
         //création du menu "admin"
         admin.add(delete);
 
@@ -121,19 +114,18 @@ public class Home extends JFrame {
         selectedPanel.add(hangManPanel, "hangMan");
         selectedPanel.add(deletePanel, "delete");
         
-        
         this.add(selectedPanel);
-
     }
 
     /**
      * Gestion événementielle du Menu
      */
+    
      /**
-     * Gestion Evenementielle du Menu
+     * on affiche la page correspondante à l'élément cliqué dans le MenuBar
      */
     private void initEvents() {
-        // Navigation entre les differentes activités
+        //on affiche la page correspondante à l'élément cliqué dans le MenuBar
         inscription.addActionListener((ie) -> {
             cards.show(selectedPanel, "inscription");
         });
@@ -153,9 +145,41 @@ public class Home extends JFrame {
         delete.addActionListener((ie) -> {
             cards.show(selectedPanel, "delete");
         });
+        //...... On écoute le bouton LOGIN dans la page connection
         
-
-
+        connectPanel.getLoginButton().addActionListener((e) -> {
+            String loginField = connectPanel.getLoginField().getText();
+            String pwdField = connectPanel.getPwdField().getText();
+            String login = "admin";
+            String pwd = "admin";
+            if (loginField.equals(login)&& pwdField.equals(pwd)){
+                System.out.println("connected");
+                JOptionPane.showMessageDialog
+                (this, "Bienvenu", "info", JOptionPane.INFORMATION_MESSAGE);
+            } else JOptionPane.showMessageDialog
+                (this, "Echec de connection, vérifier votre login et mot de passe!!!", 
+                        "info", JOptionPane.INFORMATION_MESSAGE);});
+        
+        //...On écoute le bouton VALIDER l'inscription.........
+        inscriptionPanel.getInscriptionBtn().addActionListener((e) -> {
+            String login = inscriptionPanel.getLoginTextField().getText();
+            String mail = inscriptionPanel.getMailTextField().getText();
+            String pwd1 = inscriptionPanel.getPwdTextField().getText();
+            String pwd2 = inscriptionPanel.getPwdConfirmationTextField().getText();
+            
+            User userBean = new User();
+            userBean.setLogin(login);
+            userBean.setMail(mail);
+            userBean.setPassword(pwd1);
+            
+            System.out.println(userBean);
+            
+        });
+        
+        
+        
+        
+        
     }
 
     

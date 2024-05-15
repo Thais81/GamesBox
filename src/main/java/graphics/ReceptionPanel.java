@@ -1,15 +1,9 @@
 package graphics;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 /**
  *
@@ -24,13 +18,27 @@ public class ReceptionPanel extends JPanel {
     public ReceptionPanel() {
         
         welcomePanel = new JPanel();
-
+        JPanel emojiPanel;
+        JLabel emojiLabel;
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        welcomeLabel = new JLabel("..........ReceptionPanel........");
+        welcomeLabel = new JLabel("..........   BOITE DE JEUX   ........");
         welcomePanel.add(welcomeLabel);
         add(welcomePanel);
+        
+        emojiPanel = new JPanel();
+        emojiLabel = new JLabel();
+        
+        try {
+            ImageIcon image = new ImageIcon(Thread.currentThread().
+                    getContextClassLoader().getResource("Icons/logo.png"));
+            emojiLabel.setIcon(image);
+        } catch (Exception e) {
+            System.out.println("Image not found!!");
+        }
+        emojiPanel.add(emojiLabel);
+        add(emojiPanel);
         
         
       

@@ -1,9 +1,7 @@
 package graphics;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -106,10 +104,10 @@ public class InscriptionPanel extends JPanel {
         buttonsPanel.add(cancelButton);
         add(buttonsPanel);
         
-        
-        
-        
-      
-    
 }
+    public JButton getInscriptionBtn(){return validateButton;}
+    public JTextField getLoginTextField(){return userTextField;}
+    public JTextField getMailTextField(){return mailTextField;}
+    public JPasswordField getPwdTextField(){return pwdField;}
+    public JPasswordField getPwdConfirmationTextField(){return pwdConfirmationField;}
 }
