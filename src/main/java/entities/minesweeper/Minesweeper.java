@@ -9,11 +9,14 @@ import entities.Game;
 public class Minesweeper extends Game {
     
     private Grid gridGameplay;
-    private boolean gameStarted;
-    int nbMines;
-    //redundant.
- 
+    private int nbMines;
 
+    public Minesweeper(int height, int width, int mines) {
+        gridGameplay = new Grid(height, width);
+        nbMines = mines;
+    }
+ 
+    
     public Grid getGridGameplay() {
         return gridGameplay;
     }
@@ -24,25 +27,25 @@ public class Minesweeper extends Game {
     
     @Override
     public void start(){
-        //Level will determine the grid size
-        gridGameplay = new Grid(16, 30);
+        //as soon as we implement difficutly levels.
     }
     
     @Override
     public boolean win(){
-        if (true)
-        //if winCondition
+        if (gridGameplay.getFlaggedMines() == nbMines)
             return true;
         else
             return false;
     }
 
-    public boolean isGameStarted() {
-        return gameStarted;
+    public int getNbMines() {
+        return nbMines;
     }
 
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
+    public void setNbMines(int nbMines) {
+        this.nbMines = nbMines;
     }
+
+
  
 }

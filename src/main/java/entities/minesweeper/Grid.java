@@ -14,11 +14,13 @@ public class Grid {
     private int height;
     private int width;
     private Map <Position, Cell> disposition;
+    private int flaggedMines;
     
     public Grid(int h, int w){
         height = h;
         width = w;
         disposition = new TreeMap();
+        flaggedMines = 0;
         for (int x = 1; x <= width; x++){
             for (int y = 1; y <= height; y++){
                 Position tmpPos = new Position(x,y);
@@ -69,6 +71,7 @@ public class Grid {
         return counter;
     }
     
+    /* Redundant - MineSweeperGUI does the same
     public boolean RevealCase(Position selection){
         //Method will skip everything if the case is already revealed
         if (!disposition.get(selection).isIsRevealed()){
@@ -92,7 +95,7 @@ public class Grid {
         }
         return false;
     }
-
+    */
     public int getHeight() {
         return height;
     }
@@ -115,5 +118,20 @@ public class Grid {
 
     public void setDisposition(Map <Position, Cell> disposition) {
         this.disposition = disposition;
+    }
+
+    public int getFlaggedMines() {
+        return flaggedMines;
+    }
+
+    public void setFlaggedMines(int flaggedMines) {
+        this.flaggedMines = flaggedMines;
+    }
+    
+    public void MinesFlaggedCounter(Position pos){
+        if (disposition.get(pos).isIsFlagged())
+            flaggedMines++;
+        else
+            flaggedMines--;
     }
 }
