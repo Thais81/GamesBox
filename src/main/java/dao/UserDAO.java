@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package dao;
 
 import entities.User;
@@ -22,7 +26,6 @@ public class UserDAO {
                 + " VALUES (?, ?, ?) ";
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
-//            pstmt.setInt(1, user.getId_user());
             pstmt.setString(1, user.getLogin());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getMail());
@@ -41,7 +44,7 @@ public class UserDAO {
 
     public User ReadUser(int id_user) {
         User user = null;
-        String sql = "SELECT * FROM user WHERE id_user=?";
+        String sql = "SELECT * FROM User WHERE id_user=?";
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id_user);
             ResultSet rs = pstmt.executeQuery();
@@ -51,13 +54,37 @@ public class UserDAO {
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setMail(rs.getString("mail"));
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec l'ID: " + id_user);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Erreur lors de la lecture de l'utilisateur avec l'ID: " + id_user, ex);
         }
         return user;
     }
+    
+    public User ReadUser(String login) {
+        User user = null;
+        String sql = "SELECT * FROM User WHERE login=?";
+        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, login);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.first()) {
+                user = new User();
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
+                user.setMail(rs.getString("mail"));
+                user.setId_user(rs.getInt("id_user"));
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ce login: " + login);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Erreur lors de la lecture de l'utilisateur avec le login: " + login, ex);
+        }
+        return user;
+    }
+
+    
 
     public List<User> ReadAllUsers() {
         ArrayList<User> users = new ArrayList<>();
@@ -79,10 +106,11 @@ public class UserDAO {
     }
 
     public void Update(User user) {
-        String sql = "UPDATE User SET login =  ? , password = ? , mail = ?"
+        String sql = "UPDATE User SET login = ? , password = ? , mail = ?"
                 + "WHERE id_user = ?";
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//                pstmt.setInt(1, user.getId_user());  On ne peut pas changer l'id puisqu'auto incrémenté
+        try (Connection conn = ConnectionManager.getConnection(); 
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, user.getId_user());//  On ne peut pas changer l'id puisqu'auto incrémenté
             pstmt.setString(2, user.getLogin());
             pstmt.setString(3, user.getPassword());
             pstmt.setString(4, user.getMail());

@@ -49,7 +49,7 @@ public class GameDAO {
             pstmt.setInt(1, id_game);
             ResultSet rs = pstmt.executeQuery();
             if (rs.first()) {
-                game = new Game();
+//                game = new Game();
                 game.setId_game(rs.getInt("id_game"));
                 game.setGameName(rs.getString("gameName"));
             }
@@ -62,11 +62,12 @@ public class GameDAO {
 
     public List<Game> ReadAllGames() {
         ArrayList<Game> games = new ArrayList<>();
+        Game game = null;
         String sql = "SELECT * FROM Game";
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Game game = new Game();
+//                Game game = new Game();
                 game.setId_game(rs.getInt("id_game"));
                 game.setGameName(rs.getString("gameName"));
                 games.add(game);

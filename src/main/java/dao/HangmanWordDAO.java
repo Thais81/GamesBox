@@ -70,5 +70,22 @@ public class HangmanWordDAO {
 
         }
 
-}
+    }
+
+    public HangmanWord getRandomHangmanWord() throws SQLException {
+
+        HangmanWord word = null;
+        String sql = "SELECT * FROM HangmanWord ORDER BY RAND() LIMIT 1";
+        try ( Connection conn = ConnectionManager.getConnection();  PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                word = new HangmanWord();
+                word.setId_HangmanWord(rs.getInt("id_HangmanWord"));
+                word.setGuessed_word(rs.getString("guessed_word"));
+            }
+        }
+        return word;
+
+    }
+
 }

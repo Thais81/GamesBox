@@ -158,7 +158,7 @@ public class Home extends JFrame {
             if (loginField.equals(login)&& pwdField.equals(pwd)){
                 System.out.println("connected");
                 JOptionPane.showMessageDialog
-                (this, "Bienvenu", "info", JOptionPane.INFORMATION_MESSAGE);
+                (this, "Bienvenu Admin", "info", JOptionPane.INFORMATION_MESSAGE);
             } else JOptionPane.showMessageDialog
                 (this, "Echec de connection, vérifier votre login et mot de passe!!!", 
                         "info", JOptionPane.INFORMATION_MESSAGE);});

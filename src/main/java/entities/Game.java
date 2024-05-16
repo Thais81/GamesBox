@@ -1,45 +1,44 @@
-
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
 package entities;
 
+import java.awt.LayoutManager;
+import java.io.Serializable;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 /**
- * @author Thaïs Genin
+ *
+ * @author Jonathan DAH
  */
-public class Game {
-    private int id_game;
-    private String gameName;
+    @SuppressWarnings("serial")
+    public abstract class Game extends JPanel implements Identifiable, Serializable {
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Game{");
-        sb.append("id_game=").append(id_game);
-        sb.append(", gameName=").append(gameName);
-        sb.append('}');
-        return sb.toString();
-    }
+        int id_game;
+        String gameName;
+        //No variables as it's an interface (can only have constant variables)
 
-    public Game(int id_game, String gameName) {
-        this.id_game = id_game;
-        this.gameName = gameName;
-    }
+ 
+        public Integer getId_game() {
+            return id_game;
+        }
 
-    public Game() {
-    }
-
-    public int getId_game() {
-        return id_game;
-    }
-
-    public void setId_game(int id_game) {
-        this.id_game = id_game;
-    }
-
+        ;
     public String getGameName() {
-        return gameName;
-    }
+            return gameName;
+        }
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
+        public void setId_game(Integer id) {
+            id_game = id;
+        }
 
-}
+        public void setGameName(String name) {
+            gameName = name;
+        }
+
+        abstract void start();
+
+        abstract boolean win();
+    }
