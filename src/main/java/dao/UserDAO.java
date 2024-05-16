@@ -5,7 +5,6 @@
 package dao;
 
 import entities.User;
-import jakarta.persistence.TransactionRequiredException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +43,7 @@ public class UserDAO {
 
     public User ReadUser(int id_user) {
         User user = null;
-        String sql = "SELECT * FROM user WHERE id_user=?";
+        String sql = "SELECT * FROM User WHERE id_user=?";
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id_user);
             ResultSet rs = pstmt.executeQuery();
@@ -54,10 +53,11 @@ public class UserDAO {
                 user.setLogin(rs.getString("login"));
                 user.setPassword(rs.getString("password"));
                 user.setMail(rs.getString("mail"));
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec l'ID: " + id_user);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Erreur lors de la lecture de l'utilisateur avec l'ID: " + id_user, ex);
         }
         return user;
     }
@@ -84,19 +84,31 @@ public class UserDAO {
     public void Update(User user) {
         String sql = "UPDATE User SET login =  ? , password = ? , mail = ?"
                 + "WHERE id_user = ?";
-        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-//                pstmt.setInt(1, user.getId_user());  On ne peut pas changer l'id puisqu'auto incrémenté
-            pstmt.setString(2, user.getLogin());
-            pstmt.setString(3, user.getPassword());
-            pstmt.setString(4, user.getMail());
+
+        try (Connection conn = MariaDBConnection.getInstance().getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            // Définir tous les paramètres requis
+            pstmt.setString(1, user.getLogin());
+            pstmt.setString(2, user.getPassword());
+            pstmt.setString(3, user.getMail());
             pstmt.executeUpdate();
             System.out.println("Compte utilisateur modifié");
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (java.lang.IllegalStateException | java.lang.IllegalArgumentException | TransactionRequiredException e) {
-            System.err.println(e.getMessage());
+
+
+            // Exécuter la requête
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("User trouvé");
+            } else {
+                System.out.println("User non trouvé avec cet id");
+            }
+
+        } catch (SQLException e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+            System.out.println("modification échouée ");
         }
     }
+
 
     public void Delete(int id_user) {
         String sql = "DELETE FROM User WHERE id_user = ?";

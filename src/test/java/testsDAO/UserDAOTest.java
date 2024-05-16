@@ -38,16 +38,18 @@ public class UserDAOTest {
     }
 
     @Test
-    public void testReadUser(int id_user) {
+    public void testReadUser() {
         DAOFactory.getInstance().getUserDAO().ReadUser(1);
     }
 
     @Test
-    public void testGetAllUsers() {
-        // Insère des données de test dans la base de données de test
-        // Exécute la méthode getAllUsers de la DAO
-        // Vérifie que la liste d'utilisateurs retournée correspond aux attentes
+    public void testReadAllUsers() {
+        DAOFactory.getInstance().getUserDAO().ReadAllUsers();
     }
-
-    // Autres tests unitaires pour d'autres méthodes de la DAO
+    @Test
+    public void Update() {
+        User Jonathan = new User("Jon", "MessiestmeilleurquecepOrtugaisavecunpiedbo31",
+                "Jonathan@gmail.com");
+        DAOFactory.getInstance().getUserDAO().Update(Jonathan);
+    }
 }
