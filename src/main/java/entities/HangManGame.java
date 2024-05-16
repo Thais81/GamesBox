@@ -4,6 +4,7 @@
  */
 package entities;
 
+import dao.HangmanWordDAO;
 import entities.Game;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +15,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -29,7 +33,7 @@ import javax.swing.JPanel;
 public class HangManGame extends Game {
 
     Integer id_hangmanWord;
-    String guessed_word = "WELCOME";
+    String guessed_word;
 
     int nbr = (int) (Math.random() * 35);
     int wrongGuessCount = 0;
@@ -62,8 +66,9 @@ public class HangManGame extends Game {
 
 
     public HangManGame() {
+        DisplayRandomWord();
         initGui();
-        start();
+        //start();
         win();
 
     }
@@ -95,7 +100,6 @@ public class HangManGame extends Game {
          *
          */
         word.setPreferredSize(new Dimension(85, 85));
-           guessedWord.setFont(new Font("Serif", Font.BOLD, 25));
         word.add(guessedWord);
         add(word);
 
@@ -121,14 +125,29 @@ public class HangManGame extends Game {
         /**
          * GAME START*
          */
-            guessedWord.setText(hideWord(guessedWord.getText()));
+        //guessedWord.setText(hideWord(guessedWord.getText()));
             imgPendu.setIcon(imageIcon1);
 
+        start();
         Restart();
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void DisplayRandomWord() {
+        try {
+            HangmanWordDAO hdao = new HangmanWordDAO();
+            HangmanWord word = hdao.getRandomHangmanWord();
+            if (word != null) {
+                guessed_word = word.getGuessed_word(); // Mettre à jour guessed_word avec le mot récupéré
+                guessedWord.setText(hideWord(guessed_word)); // Mettre à jour le texte de guessedWord
+                guessedWord.setFont(new Font("Serif", Font.BOLD, 30));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -140,6 +159,8 @@ public class HangManGame extends Game {
             for (JButton button : keyboardButtons) {
                 button.setBackground(new JButton().getBackground());
             }
+            guessedWord.setText("");
+            DisplayRandomWord();
 
         });
     }
@@ -192,18 +213,28 @@ public class HangManGame extends Game {
                 guessedWord.setText(revealedWord.toString());
 
                 if (revealedWord.indexOf("_") == -1) {
-                    JOptionPane.showMessageDialog(this, "Vous avez gagné !", "BRAVO!", JOptionPane.INFORMATION_MESSAGE);
+                    String[] options = {"Restart"};
+                    int choice = JOptionPane.showOptionDialog(null, "Vous avez gagné ! ", "Bravo!",
+                            0, 1, null, options, options[0]);
+                    if (choice == 0) {
+                        DisplayRandomWord();
+                        imgPendu.setIcon(imageIcon1);
+                    }
                     winOrLoose = 1;
-                    imgPendu.setIcon(imageIcon1);
                     for (JButton mybutton : keyboardButtons) {
                         mybutton.setBackground(new JButton().getBackground());
                     }
 
                 }
                 if (imgPendu.getIcon().equals(imageIcon11)) {
-                    JOptionPane.showMessageDialog(this, "Vous etes mort :( ", "DOMMAGE!", JOptionPane.INFORMATION_MESSAGE);
+                    String[] options = {"Restart"};
+                    int choice = JOptionPane.showOptionDialog(null, "Vous avez perdu :( ! ", "Dommage!",
+                            0, 0, null, options, options[0]);
+                    if (choice == 0) {
+                        DisplayRandomWord();
+                        imgPendu.setIcon(imageIcon1);
+                    }
                     winOrLoose = 0;
-                    imgPendu.setIcon(imageIcon1);
                     for (JButton mybutton : keyboardButtons) {
                         mybutton.setBackground(new JButton().getBackground());
                     }
@@ -224,5 +255,6 @@ public class HangManGame extends Game {
             return false;
 
     }
+
 
 }
