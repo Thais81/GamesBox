@@ -21,6 +21,7 @@ public class Play {
         this.id_user = id_user;
         this.id_game = id_game;
         this.nb_win = nb_win;
+        this.nb_playedgames = nb_playedgames;
     }
 
     @Override

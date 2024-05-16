@@ -2,8 +2,7 @@
 package fr.ldnr.groupe4.boitedejeux;
 
 import dao.DAOFactory;
-import entities.HangmanWord;
-import entities.User;
+import java.sql.SQLException;
 
 /**
  *
@@ -11,11 +10,18 @@ import entities.User;
  */
 public class Boitedejeux {
 
-    public static void main(String[] args) {
-        User Jonathan = new User("Jon", "MessiestmeilleurquecepOrtugaisavecunpiedbo31",
-                "Jonathan@gmail.com");
-        HangmanWord Coucou = new HangmanWord("coucou");
-        DAOFactory.getInstance().getHangmanWordDAO().create(Coucou);
+    public static void main(String[] args) throws SQLException {
+//        User Jonathan = new User("Jon", "MessiestmeilleurquecepOrtugaisavecunpiedbo31",
+//                "Jonathan@gmail.com");
+//        HangmanWord coucou = new HangmanWord("coucou");
+//        HangmanWord salut = new HangmanWord("salut");
+//        HangmanWord hello = new HangmanWord("hello");
+//        HangmanWord bonjour = new HangmanWord("bonjour");
+//        DAOFactory.getInstance().getHangmanWordDAO().create(salut);
+//        DAOFactory.getInstance().getHangmanWordDAO().create(hello);
+//        DAOFactory.getInstance().getHangmanWordDAO().create(bonjour);
+//        System.out.println(DAOFactory.getInstance().getHangmanWordDAO().getAllWords());
+        DAOFactory.getInstance().getHangmanWordDAO().deleteWord(5);
 //        System.out.println(DAOFactory.getInstance().getUserDAO().ReadUser("Jon"));
 //        Jonathan.setLogin("Jonpeuimporte");
 //        Jonathan.setPassword("MessiestmeilleurquecepOrtugaisavecunpiedbo31");

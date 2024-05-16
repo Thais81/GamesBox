@@ -28,7 +28,9 @@ public class HangmanWord {
     public int getId_HangmanWord() {
         return id_HangmanWord;
     }
-
+    public void setId_HangmanWord(int id_HangmanWord) {
+        this.id_HangmanWord = id_HangmanWord;
+    }
 
     public String getGuessed_word() {
         return guessed_word;
@@ -37,5 +39,16 @@ public class HangmanWord {
     public void setGuessed_word(String guessed_word) {
         this.guessed_word = guessed_word;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("HangmanWord{");
+        sb.append("id_HangmanWord=").append(id_HangmanWord);
+        sb.append(", guessed_word=").append(guessed_word);
+        sb.append('}');
+        return sb.toString();
+    }
+
 
 }
