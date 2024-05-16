@@ -5,6 +5,8 @@ import entities.minesweeper.MineCell;
 import entities.minesweeper.Minesweeper;
 import entities.minesweeper.Position;
 import entities.minesweeper.SafeCell;
+import graphics.Home;
+import graphics.ReceptionPanel;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -34,6 +36,7 @@ public class MinesweeperGUI extends JPanel{
     Minesweeper mines;
     boolean firstClick;
     int flags;
+    JPanel homePanel;
 
     public MinesweeperGUI() {
         mines = new Minesweeper();
@@ -43,7 +46,6 @@ public class MinesweeperGUI extends JPanel{
 
     private void initGui() {
         mines.setUserInterface(this);
-        levelSelector();
         mines.start();
         firstClick = true;
         flags = 0;
@@ -110,13 +112,22 @@ public class MinesweeperGUI extends JPanel{
         this.add(jp);
     }
 
-    private void newPlay(){
+    public void newPlay() {
+
         jp.removeAll();
+        levelSelector();
         initGui();
         revalidate();
         repaint();
     }
 
+    private void goHome() {
+        jp.removeAll();
+        homePanel = new ReceptionPanel();
+        revalidate();
+        repaint();
+        homePanel.setVisible(true);
+    }
     private void gameOver(){
         //Dans les deux cas, un bouton qui fait appel à newPlay
         Object[] options = {"Nouvelle Partie", "Accueil"};
@@ -136,7 +147,7 @@ public class MinesweeperGUI extends JPanel{
         if (result == JOptionPane.YES_OPTION) {
             newPlay();
         } else {
-            System.out.println("accueil");
+            goHome();
         }
     }
 

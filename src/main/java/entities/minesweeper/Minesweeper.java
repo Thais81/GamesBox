@@ -9,7 +9,6 @@ import graphics.minesweeper.MinesweeperGUI;
  */
 public class Minesweeper extends Game {
 
-    private Minesweeper instance;
     private Grid gridGameplay;
     private int nbMines;
     //This will be used when custom user difficulty will be added

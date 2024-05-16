@@ -17,7 +17,7 @@ public class Cell {
         isRevealed = false;
         isFlagged = false;
     }
-    
+
     public boolean isIsFlagged() {
         return isFlagged;
     }
@@ -25,12 +25,11 @@ public class Cell {
     public void setIsFlagged(boolean isFlagged) {
         this.isFlagged = isFlagged;
     }
-    
+
     public void toggleIsFlagged(){
         this.isFlagged = !isFlagged;
-        System.out.println("Cell " + (isFlagged ? "flagged" : "unflagged"));
     }
-    
+
     public Position getPos() {
         return pos;
     }
@@ -46,7 +45,7 @@ public class Cell {
     public void setIsRevealed(boolean isRevealed) {
         this.isRevealed = isRevealed;
     }
-    
+
     public CellButton getButton() {
         return button;
     }
@@ -64,6 +63,6 @@ public class Cell {
         sb.append('}');
         return sb.toString();
     }
-    
-    
+
+
 }

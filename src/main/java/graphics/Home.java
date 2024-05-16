@@ -23,14 +23,14 @@ public class Home extends JFrame {
     private static final long serialVersionUID = 1L;
 
     JMenuBar menuBar;
-    
+
     ReceptionPanel receptionPanel;
     InscriptionPanel inscriptionPanel;
     ConnectPanel connectPanel;
     MinesweeperGUI mineSweeperPanel;
     HangManPanel hangManPanel;
     DeletePanel deletePanel;
-    
+
     JPanel selectedPanel;
     JTabbedPane tabpane;
     JMenu account, game, admin;
@@ -39,22 +39,22 @@ public class Home extends JFrame {
     CardLayout cards;
     //JLabel welcomeLabel;
     ReceptionPanel welcomePanel2 = new ReceptionPanel();
-    
+
     ArrayList<User> users = new ArrayList<>();
-    
-    
-    
+
+
+
     public Home() throws HeadlessException {
         super();
         cards = new CardLayout();
     //définition des différents éléments du menu
         menuBar = new JMenuBar();
-        
+
         //création de 3 entrée dans notre menuBar
         account = new JMenu("Mon compte  ");
         game = new JMenu("Jeux  ");
         admin = new JMenu("Administrateur");
-        
+
         //Les items qui font l'appel de nos panels
         inscription = new JMenuItem("S'inscrire");
         connect = new JMenuItem("Se connecter");
@@ -62,7 +62,7 @@ public class Home extends JFrame {
         mineSweeper = new JMenuItem("Démineur");
         delete = new JMenuItem("Supprimer compte");
         //welcomeLabel = new JLabel("Bienvenue dans ta Boîte de Jeux!");
-        
+
         initGUI();
         initEvents();
 
@@ -78,11 +78,11 @@ public class Home extends JFrame {
         //création du menu "compte"
         account.add(inscription);
         account.add(connect);
-        
+
         //création du menu "jeux"
         game.add(mineSweeper);
         game.add(hangMan);
-        
+
         //création du menu "admin"
         admin.add(delete);
 
@@ -105,11 +105,11 @@ public class Home extends JFrame {
         mineSweeperPanel = new MinesweeperGUI();
         hangManPanel = new HangManPanel();
         deletePanel = new DeletePanel();
-        
-        
+
+
         selectedPanel = new JPanel();
         selectedPanel.setLayout(cards);
-        
+
         //setLayout(new FlowLayout());
         selectedPanel.add(receptionPanel, "reception");
         selectedPanel.add(inscriptionPanel, "inscription");
@@ -117,14 +117,14 @@ public class Home extends JFrame {
         selectedPanel.add(mineSweeperPanel, "mineSweeper");
         selectedPanel.add(hangManPanel, "hangMan");
         selectedPanel.add(deletePanel, "delete");
-        
+
         this.add(selectedPanel);
     }
 
     /**
      * Gestion événementielle du Menu
      */
-    
+
      /**
      * on affiche la page correspondante à l'élément cliqué dans le MenuBar
      */
@@ -133,24 +133,25 @@ public class Home extends JFrame {
         inscription.addActionListener((ie) -> {
             cards.show(selectedPanel, "inscription");
         });
-        
+
         connect.addActionListener((ie) -> {
             cards.show(selectedPanel, "connect");
         });
-        
+
         mineSweeper.addActionListener((ie) -> {
+            mineSweeperPanel.newPlay();
             cards.show(selectedPanel, "mineSweeper");
         });
-        
+
         hangMan.addActionListener((ie) -> {
             cards.show(selectedPanel, "hangMan");
         });
-        
+
         delete.addActionListener((ie) -> {
             cards.show(selectedPanel, "delete");
         });
         //...... On écoute le bouton LOGIN dans la page connection
-        
+
         connectPanel.getLoginButton().addActionListener((e) -> {
             String loginField = connectPanel.getLoginField().getText();
             String pwdField = connectPanel.getPwdField().getText();
@@ -161,31 +162,31 @@ public class Home extends JFrame {
                 JOptionPane.showMessageDialog
                 (this, "Bienvenu Admin", "info", JOptionPane.INFORMATION_MESSAGE);
             } else JOptionPane.showMessageDialog
-                (this, "Echec de connection, vérifier votre login et mot de passe!!!", 
+                (this, "Echec de connection, vérifier votre login et mot de passe!!!",
                         "info", JOptionPane.INFORMATION_MESSAGE);});
-        
+
         //...On écoute le bouton VALIDER l'inscription.........
         inscriptionPanel.getInscriptionBtn().addActionListener((e) -> {
             String login = inscriptionPanel.getLoginTextField().getText();
             String mail = inscriptionPanel.getMailTextField().getText();
             String pwd1 = inscriptionPanel.getPwdTextField().getText();
             String pwd2 = inscriptionPanel.getPwdConfirmationTextField().getText();
-            
+
             User userBean = new User();
             userBean.setLogin(login);
             userBean.setMail(mail);
             userBean.setPassword(pwd1);
             users.add(userBean);
-            
+
             System.out.println(userBean);
-            
+
         });
-        
-        
-        
-        
-        
+
+
+
+
+
     }
 
-    
+
 }
