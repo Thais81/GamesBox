@@ -1,10 +1,10 @@
 package graphics;
 
+import dao.DAOFactory;
 import entities.User;
 import graphics.minesweeper.MinesweeperGUI;
 import java.awt.CardLayout;
 import java.awt.HeadlessException;
-import java.awt.List;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -34,7 +34,7 @@ public class Home extends JFrame {
     JPanel selectedPanel;
     JTabbedPane tabpane;
     JMenu account, game, admin;
-    JMenuItem inscription, connect, hangMan, mineSweeper, delete;
+    JMenuItem inscription, connect, logout, hangMan, mineSweeper, delete;
     JPanel welcomePanel, image;
     CardLayout cards;
     //JLabel welcomeLabel;
@@ -58,6 +58,7 @@ public class Home extends JFrame {
         //Les items qui font l'appel de nos panels
         inscription = new JMenuItem("S'inscrire");
         connect = new JMenuItem("Se connecter");
+        logout = new JMenuItem("Se déconnecter");
         hangMan = new JMenuItem("Jeu du Pendu");
         mineSweeper = new JMenuItem("Démineur");
         delete = new JMenuItem("Supprimer compte");
@@ -78,7 +79,7 @@ public class Home extends JFrame {
         //création du menu "compte"
         account.add(inscription);
         account.add(connect);
-        
+        account.add(logout).setVisible(false);
         //création du menu "jeux"
         game.add(mineSweeper);
         game.add(hangMan);
@@ -89,7 +90,7 @@ public class Home extends JFrame {
         //création du menuBar
         menuBar.add(account);
         menuBar.add(game);
-        menuBar.add(admin);
+        menuBar.add(admin).setVisible(false);
 
         //on met le menuBar dans le frame
         this.setJMenuBar(menuBar);
@@ -154,13 +155,22 @@ public class Home extends JFrame {
         connectPanel.getLoginButton().addActionListener((e) -> {
             String loginField = connectPanel.getLoginField().getText();
             String pwdField = connectPanel.getPwdField().getText();
-            String login = "admin";
-            String pwd = "admin";
+            String login = DAOFactory.getInstance().getUserDAO().ReadUser(1).getLogin();
+            String pwd = DAOFactory.getInstance().getUserDAO().ReadUser(1).getPassword();
             if (loginField.equals(login)&& pwdField.equals(pwd)){
                 System.out.println("connected");
                 JOptionPane.showMessageDialog
                 (this, "Bienvenu Admin", "info", JOptionPane.INFORMATION_MESSAGE);
-            } else JOptionPane.showMessageDialog
+                admin.setVisible(true);
+                toggleConnectionVisibilty(false);}
+            else if (signin(loginField, pwdField)){
+                System.out.println(loginField + "connecté comme utilisateur normal");
+                JOptionPane.showMessageDialog
+                (this, "Bienvenu "+loginField, "info", JOptionPane.INFORMATION_MESSAGE);
+                toggleConnectionVisibilty(false);
+            }
+            
+            else JOptionPane.showMessageDialog
                 (this, "Echec de connection, vérifier votre login et mot de passe!!!", 
                         "info", JOptionPane.INFORMATION_MESSAGE);});
         
@@ -171,20 +181,53 @@ public class Home extends JFrame {
             String pwd1 = inscriptionPanel.getPwdTextField().getText();
             String pwd2 = inscriptionPanel.getPwdConfirmationTextField().getText();
             
-            User userBean = new User();
-            userBean.setLogin(login);
-            userBean.setMail(mail);
-            userBean.setPassword(pwd1);
-            users.add(userBean);
+//            if((login != null)&& (pwd1 != null) && (pwd1.equals(pwd2))&&(signin(login, pwd2))){
+//                System.out.println("OOOOKKK");
+//                User userBean = new User();
+//                userBean.setLogin(login);
+//                userBean.setMail(mail);
+//                userBean.setPassword(pwd1);
+//                DAOFactory.getInstance().getUserDAO().Create(userBean);
+//            }
             
-            System.out.println(userBean);
+                User userBean = new User();
+                userBean.setLogin(login);
+                userBean.setMail(mail);
+                userBean.setPassword(pwd1);
+                DAOFactory.getInstance().getUserDAO().Create(userBean);
+        });
+        
+        //un Listener sur l'élément "SE DECONNECTER"
+        logout.addActionListener((e) -> {
+            admin.setVisible(false);
+            //displayConnection();
+            toggleConnectionVisibilty(true);
+            logout.setVisible(false);
+            connectPanel.getLoginField().setText("");
+            connectPanel.getPwdField().setText("");
+            cards.show(selectedPanel, "reception");//retour vers la page d'accueil
             
         });
         
         
         
         
-        
+    }
+
+
+    
+    private void toggleConnectionVisibilty(boolean p) {
+        connect.setVisible(p);
+        inscription.setVisible(p);
+        logout.setVisible(!p);
+    }
+    
+    public boolean signin(String login, String pwd){
+        int id = DAOFactory.getInstance().getUserDAO().getId(login);
+        if (id == 0)return false;
+        String temp = DAOFactory.getInstance().getUserDAO().ReadUser(login).getPassword();
+        if ((id != 1)&&(pwd.equals(temp) )) return true;
+        else return false;
     }
 
     
