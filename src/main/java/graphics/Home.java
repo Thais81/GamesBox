@@ -53,9 +53,9 @@ public class Home extends JFrame {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fermeture
         this.setResizable(true); // Fenêtre non-redimensionnable
-        this.pack(); // Ajustement de la taille au contenu
         this.setLocationRelativeTo(null); // On positionne la fenêtre au milieu de l'écran
         this.setVisible(true); // Affichage de la fenêtre
+        this.pack(); // Ajustement de la taille au contenu
     }
 
     private void initGUI() {
