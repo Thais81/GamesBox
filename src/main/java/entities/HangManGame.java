@@ -76,10 +76,10 @@ public class HangManGame extends Game {
     }
 
     public void initGui() {
-        setTitle("PENDU");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setTitle("PENDU");
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         /**
          * Haut de page*
@@ -127,9 +127,9 @@ public class HangManGame extends Game {
 
         RestartButton();
 
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
+        
+        
+        
     }
 
     private void DisplayRandomWord() {

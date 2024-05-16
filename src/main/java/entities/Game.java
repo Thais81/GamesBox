@@ -13,44 +13,40 @@ import javax.swing.JPanel;
  *
  * @author Jonathan DAH
  */
-public abstract class Game extends JFrame {
 
-    Integer id_game;
-    String name;
-    int level;
-    //boolean win;
 
-    public abstract void start();
+@SuppressWarnings("serial")
+public class Game extends JPanel implements Identifiable, Serializable {
+    protected int id_game;
+    protected String gameName;
+    protected int level;
 
-    public abstract boolean win();
-
-    @SuppressWarnings("serial")
-    public abstract class Game implements Identifiable, Serializable {
-
-        int id_game;
-        String gameName;
-        //No variables as it's an interface (can only have constant variables)
-
-        @Override
-        public Integer getId() {
-            return id_game;
-        }
-
-        ;
-    public String getGameName() {
-            return gameName;
-        }
-
-        @Override
-        public void setId(Integer id) {
-            id_game = id;
-        }
-
-        public void setGameName(String name) {
-            gameName = name;
-        }
-
-        abstract void start();
-
-        abstract boolean win();
+    @Override
+    public Integer getId(){
+        return id_game;
+    };
+    public String getGameName(){
+        return gameName;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
+    public void setId(Integer id){
+        id_game = id;
+    }
+    public void setGameName(String name){
+        gameName = name;
+    }
+
+    public  void start(){}
+    public  boolean win(){
+        return false;
+    }
+}
