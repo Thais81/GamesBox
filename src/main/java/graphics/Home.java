@@ -3,6 +3,8 @@ package graphics;
 import entities.User;
 import java.awt.CardLayout;
 import java.awt.HeadlessException;
+import java.awt.List;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -37,6 +39,7 @@ public class Home extends JFrame {
     //JLabel welcomeLabel;
     ReceptionPanel welcomePanel2 = new ReceptionPanel();
     
+    ArrayList<User> users = new ArrayList<>();
     
     
     
@@ -171,6 +174,7 @@ public class Home extends JFrame {
             userBean.setLogin(login);
             userBean.setMail(mail);
             userBean.setPassword(pwd1);
+            users.add(userBean);
             
             System.out.println(userBean);
             

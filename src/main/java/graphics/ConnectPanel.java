@@ -42,7 +42,7 @@ public class ConnectPanel extends JPanel {
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        welcomeLabel = new JLabel("Bienvenu, tapper votre login et votre mot de passe");
+        welcomeLabel = new JLabel("Bienvenue, taper votre login et votre mot de passe");
         welcomePanel.add(welcomeLabel);
         
         //............................................
