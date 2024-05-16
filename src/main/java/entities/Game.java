@@ -8,9 +8,10 @@ import java.io.Serializable;
 
 @SuppressWarnings("serial")
 public abstract class Game implements Identifiable, Serializable {
-    int id_game;
-    String gameName;
-    //No variables as it's an interface (can only have constant variables)
+    protected int id_game;
+    protected String gameName;
+    protected int level;
+
     @Override
     public Integer getId(){
         return id_game;
@@ -18,6 +19,15 @@ public abstract class Game implements Identifiable, Serializable {
     public String getGameName(){
         return gameName;
     }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public void setId(Integer id){
         id_game = id;
@@ -25,6 +35,7 @@ public abstract class Game implements Identifiable, Serializable {
     public void setGameName(String name){
         gameName = name;
     }
+
     public abstract void start();
     public abstract boolean win();
 }
