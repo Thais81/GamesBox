@@ -68,7 +68,6 @@ public class HangManGame extends Game {
     public HangManGame() {
         DisplayRandomWord();
         initGui();
-        //start();
         win();
 
     }
@@ -113,12 +112,8 @@ public class HangManGame extends Game {
         }
         add(keyboardPanel);
 
-        //JPanel StartGame = new JPanel();
         StartGame.setLayout(new FlowLayout());
         StartGame.setPreferredSize(new Dimension(50, 50));
-        //JButton startButton = new JButton("START");
-        //JButton restartButton = new JButton("RESTART");
-        //StartGame.add(startButton);
         StartGame.add(restartButton);
         add(StartGame);
 
@@ -153,8 +148,6 @@ public class HangManGame extends Game {
 
     public void Restart() {
         restartButton.addActionListener((ActionEvent ae) -> {
-            // guessedWord.setText(new );
-            //guessedWord.setText(hideWord(guessedWord.getText()));
             imgPendu.setIcon(imageIcon1);
             for (JButton button : keyboardButtons) {
                 button.setBackground(new JButton().getBackground());
@@ -198,7 +191,7 @@ public class HangManGame extends Game {
                 if (!letterFound) {
                     wrongGuessCount++; // Incrémente le nombre d'erreurs
                     if (wrongGuessCount < tabImage.length) {
-                        // Change l'image du pendu uniquement si le nombre d'erreurs est dans la limite du tableau
+                        // Change l'image du pendu uniquement si le nombre d'erreurs est dans la limite du tableau d'images
                         imgPendu.setIcon(tabImage[wrongGuessCount]);
                     }
                     for (int i = 0; i < guessed_word.length(); i++) {
