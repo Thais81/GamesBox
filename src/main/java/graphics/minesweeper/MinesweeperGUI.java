@@ -29,7 +29,7 @@ import javax.swing.border.EmptyBorder;
  */
 
 @SuppressWarnings("serial")
-public class MinesweeperGUI extends JFrame{
+public class MinesweeperGUI extends JPanel{
     JPanel jp;
     Minesweeper mines;
     boolean firstClick;
@@ -39,11 +39,6 @@ public class MinesweeperGUI extends JFrame{
         mines = new Minesweeper();
         jp = new JPanel();
         initGui();
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Fermeture
-        this.setResizable(true);
-        this.pack();
-        this.setLocationRelativeTo(null); // On positionne la fenêtre au milieu de l'écran
-        this.setVisible(true); // Affichage de la fenêtre
     }
 
     private void initGui() {

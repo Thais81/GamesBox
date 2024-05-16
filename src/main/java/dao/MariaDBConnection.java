@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import java.sql.Connection;
@@ -17,9 +13,9 @@ public class MariaDBConnection {
 
     private static MariaDBConnection instance;
     private Connection connection;
-    private static final String URL = "jdbc:mariadb://localhost:3306/BoîteJeux";
-    private static final String USER = "root";//visible dans le code....
-    private static final String PASSWORD = "12345";//visible dans le code....
+    private static final String URL = "jdbc:mariadb://localhost:3306/BoiteJeux";
+    private static final String USER = "admin";//visible dans le code....
+    private static final String PASSWORD = "admin";//visible dans le code....
 
     private MariaDBConnection() throws SQLException {
         try {
