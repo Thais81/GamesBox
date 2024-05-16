@@ -61,7 +61,26 @@ public class UserDAO {
         }
         return user;
     }
-
+    public User ReadUser(String login) {
+        User user = null;
+        String sql = "SELECT * FROM User WHERE login=?";
+        try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, login);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.first()) {
+                user = new User();
+                user.setLogin(rs.getString("login"));
+                user.setPassword(rs.getString("password"));
+                user.setMail(rs.getString("mail"));
+                user.setId_user(rs.getInt("id_user"));
+            } else {
+                System.out.println("Aucun utilisateur trouvé avec ce login: " + login);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Erreur lors de la lecture de l'utilisateur avec le login: " + login, ex);
+        }
+        return user;
+    }
     public List<User> ReadAllUsers() {
         ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT * FROM User";
@@ -91,9 +110,9 @@ public class UserDAO {
             pstmt.setString(1, user.getLogin());
             pstmt.setString(2, user.getPassword());
             pstmt.setString(3, user.getMail());
+            pstmt.setInt(4, user.getId_user());
             pstmt.executeUpdate();
             System.out.println("Compte utilisateur modifié");
-
 
             // Exécuter la requête
             int affectedRows = pstmt.executeUpdate();

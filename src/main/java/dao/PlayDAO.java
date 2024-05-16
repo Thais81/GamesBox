@@ -20,7 +20,7 @@ import java.util.List;
 public class PlayDAO {
 
     public void createPlay(Play play) {
-        String sql = "INSERT INTO Play (id_user id_game nb_win	nb_playedgames) VALUES (?, ?, ?, ?) ";
+        String sql = "INSERT INTO Play (id_user, id_game, nb_win, nb_playedgames)" + "VALUES (?, ?, ?, ?) ";
         try (Connection conn = ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setInt(1, play.getId_user());
             pstmt.setInt(2, play.getId_game());

@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class User implements Serializable {
 
-    private Integer id_user;
+    private int id_user;
     private String login;
 
     public User() {
