@@ -66,8 +66,11 @@ public class HangManGame extends Game {
 
 
     public HangManGame() {
+
         DisplayRandomWord();
+
         initGui();
+        start();
         win();
 
     }
@@ -107,7 +110,7 @@ public class HangManGame extends Game {
 
         for (int i = 0; i < alphabet.length; i++) {
             JButton button = new JButton(alphabet[i]);
-            keyboardButtons[i] = button; // Ajoutez le bouton au tableau
+            keyboardButtons[i] = button;
             keyboardPanel.add(button);
         }
         add(keyboardPanel);
@@ -120,11 +123,9 @@ public class HangManGame extends Game {
         /**
          * GAME START*
          */
-        //guessedWord.setText(hideWord(guessedWord.getText()));
             imgPendu.setIcon(imageIcon1);
 
-        start();
-        Restart();
+        RestartButton();
 
         pack();
         setLocationRelativeTo(null);
@@ -132,12 +133,13 @@ public class HangManGame extends Game {
     }
 
     private void DisplayRandomWord() {
+
         try {
             HangmanWordDAO hdao = new HangmanWordDAO();
             HangmanWord word = hdao.getRandomHangmanWord();
             if (word != null) {
-                guessed_word = word.getGuessed_word(); // Mettre à jour guessed_word avec le mot récupéré
-                guessedWord.setText(hideWord(guessed_word)); // Mettre à jour le texte de guessedWord
+                guessed_word = word.getGuessed_word();
+                guessedWord.setText(hideWord(guessed_word));
                 guessedWord.setFont(new Font("Serif", Font.BOLD, 30));
             }
         } catch (SQLException e) {
@@ -146,15 +148,16 @@ public class HangManGame extends Game {
     }
 
 
-    public void Restart() {
+    public void RestartButton() {
+
         restartButton.addActionListener((ActionEvent ae) -> {
+            guessedWord.setText("");
+            wrongGuessCount = 0;
+            DisplayRandomWord();
             imgPendu.setIcon(imageIcon1);
             for (JButton button : keyboardButtons) {
                 button.setBackground(new JButton().getBackground());
             }
-            guessedWord.setText("");
-            DisplayRandomWord();
-
         });
     }
 
@@ -204,38 +207,45 @@ public class HangManGame extends Game {
 
                 // Mise a jour du mot caché
                 guessedWord.setText(revealedWord.toString());
-
-                if (revealedWord.indexOf("_") == -1) {
-                    String[] options = {"Restart"};
-                    int choice = JOptionPane.showOptionDialog(null, "Vous avez gagné ! ", "Bravo!",
-                            0, 1, null, options, options[0]);
-                    if (choice == 0) {
-                        DisplayRandomWord();
-                        imgPendu.setIcon(imageIcon1);
-                    }
-                    winOrLoose = 1;
-                    for (JButton mybutton : keyboardButtons) {
-                        mybutton.setBackground(new JButton().getBackground());
-                    }
-
-                }
-                if (imgPendu.getIcon().equals(imageIcon11)) {
-                    String[] options = {"Restart"};
-                    int choice = JOptionPane.showOptionDialog(null, "Vous avez perdu :( ! ", "Dommage!",
-                            0, 0, null, options, options[0]);
-                    if (choice == 0) {
-                        DisplayRandomWord();
-                        imgPendu.setIcon(imageIcon1);
-                    }
-                    winOrLoose = 0;
-                    for (JButton mybutton : keyboardButtons) {
-                        mybutton.setBackground(new JButton().getBackground());
-                    }
-
-                }
+                checkWinCondition(revealedWord);
+                checkLoseCondition();
             });
         }
 
+    }
+
+    private void checkWinCondition(StringBuilder revealedWord) {
+        if (revealedWord.indexOf("_") == -1) {
+            JOptionPane.showMessageDialog(null, "Vous avez gagné !", "Bravo !", JOptionPane.INFORMATION_MESSAGE);
+            int option = JOptionPane.showOptionDialog(null, "Voulez-vous rejouer ?", "Redémarrer", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Oui", "Non"}, "Oui");
+            if (option == JOptionPane.YES_OPTION) {
+                restartGame();
+            } else {
+                JOptionPane.showMessageDialog(null, "Merci d'avoir joué !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    private void checkLoseCondition() {
+        if (imgPendu.getIcon().equals(imageIcon11)) {
+            JOptionPane.showMessageDialog(null, "Vous avez perdu !", "Dommage !", JOptionPane.ERROR_MESSAGE);
+            int option = JOptionPane.showOptionDialog(null, "Voulez-vous rejouer ?", "Redémarrer", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Oui", "Non"}, "Oui");
+            if (option == JOptionPane.YES_OPTION) {
+                restartGame();
+            } else {
+                JOptionPane.showMessageDialog(null, "Merci d'avoir joué !", "Fin du jeu", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    }
+
+    private void restartGame() {
+
+        imgPendu.setIcon(imageIcon1);
+        wrongGuessCount = 0;
+        for (JButton button : keyboardButtons) {
+            button.setBackground(new JButton().getBackground());
+        }
+        DisplayRandomWord();
     }
 
     @Override
